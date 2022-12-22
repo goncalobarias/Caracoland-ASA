@@ -2,91 +2,104 @@
 #include <iostream>
 #include <vector>
 
-typedef unsigned long long ull;
+typedef long long ll;
 
+/**
+ * Disjointed set data structure used by the modified Kruskal algorithm to
+ * identify if adding an edge will cause any cycles in the tree.
+ */
 class DisjointedSet {
+  private:
+    std::vector<ll> _parents, _ranks;
+
   public:
-    std::vector<ull> _parent, _rank;
-
-    DisjointedSet(ull numV) {
-        _parent.resize(numV);
-        _rank.resize(numV);
-        _makeSet(numV);
+    DisjointedSet(const ll numV) {
+        _parents.resize(numV);
+        _ranks.resize(numV);
+        makeSet(numV);
     }
 
-    void _makeSet(ull numV) {
-        for (ull i = 0; i < numV; i++) {
-            _parent.at(i) = i;
-            _rank.at(i) = 0;
+    void makeSet(const ll numV) {
+        for (ll i = 0; i < numV; i++) {
+            _parents.at(i) = i;
+            _ranks.at(i) = 0;
         }
     }
 
-    ull _findSet(ull x) {
-        ull parent = _parent.at(x);
-        if (parent != x) {
-            parent = _findSet(_parent.at(x));
+    ll findSet(const ll x) {
+        if (_parents.at(x) != x) {
+            _parents.at(x) = findSet(_parents.at(x));
         }
-        return parent;
+        return _parents.at(x);
     }
 
-    void _union(ull x, ull y) { _link(_findSet(x), _findSet(y)); }
+    void merge(const ll x, const ll y) { link(findSet(x), findSet(y)); }
 
-    void _link(ull x, ull y) {
-        if (_rank.at(x) > _rank.at(y)) {
-            _parent.at(y) = x;
+    void link(const ll x, const ll y) {
+        if (_ranks.at(x) > _ranks.at(y)) {
+            _parents.at(y) = x;
         } else {
-            _parent.at(x) = y;
-            if (_rank.at(x) == _rank.at(y)) {
-                _rank.at(y)++;
+            _parents.at(x) = y;
+            if (_ranks.at(x) == _ranks.at(y)) {
+                _ranks.at(y)++;
             }
         }
     }
 };
 
+/**
+ * Stores the two vertices the edge is attached to and its corresponding weight.
+ */
 struct Edge {
-    ull _vertice1, _vertice2, _weight;
+    ll vertice1, vertice2, weight;
 
-    bool operator<(const Edge &a) const { return _weight > a._weight; }
+    bool operator<(const Edge &e) const { return weight > e.weight; }
 };
 
-ull kruskalMaximumWeight(int numV, std::vector<Edge> edges) {
+/**
+ * Modified Kruskal algorithm that gets the maximum weight of the edges instead
+ * of the minimum.
+ */
+ll kruskalMaximumWeight(const ll numV, std::vector<Edge> *edges) {
     DisjointedSet *disjointedSet = new DisjointedSet(numV);
 
-    std::sort(edges.begin(), edges.end());
+    // Sorting the edges by their weight in decreasing order
+    std::sort(edges->begin(), edges->end());
 
-    ull maximumTrades = 0;
-    for (Edge edge : edges) {
-        if (disjointedSet->_findSet(edge._vertice1) !=
-            disjointedSet->_findSet(edge._vertice2)) {
-            disjointedSet->_union(edge._vertice1, edge._vertice2);
-            maximumTrades += edge._weight;
+    ll maximumTrades = 0;
+    for (auto edge = edges->begin(); edge != edges->end(); ++edge) {
+        if (disjointedSet->findSet(edge->vertice1) !=
+            disjointedSet->findSet(edge->vertice2)) {
+            disjointedSet->merge(edge->vertice1, edge->vertice2);
+            maximumTrades += edge->weight;
         }
     }
 
+    delete disjointedSet;
     return maximumTrades;
 }
 
 int main() {
-    ull numV, numE;
-    std::vector<Edge> edges;
+    ll numV, numE; // numV = number of vertices and numE = number of edges
+    std::vector<Edge> edges; // contains all the graph edges
 
     std::cin >> numV >> numE;
 
+    // When we have 0 or less vertices/edges the maximum trade is always 0
     if (numV <= 0 || numE <= 0) {
         std::cout << 0 << "\n";
         return 0;
     }
 
-    ull vertice1, vertice2, weight;
-    for (ull i = 0; i < numE; i++) {
-        std::cin >> vertice1 >> vertice2 >> weight;
-        Edge edge = {._vertice1 = vertice1 - 1,
-                     ._vertice2 = vertice2 - 1,
-                     ._weight = weight};
+    // Reads the edge information and stores it all
+    ll v, u, w;
+    for (ll i = 0; i < numE; i++) {
+        std::cin >> v >> u >> w;
+        Edge edge = {.vertice1 = v - 1, .vertice2 = u - 1, .weight = w};
         edges.push_back(edge);
     }
 
-    std::cout << kruskalMaximumWeight(numV, edges) << "\n";
+    std::cout << kruskalMaximumWeight(numV, &edges) << "\n";
 
     return 0;
 }
