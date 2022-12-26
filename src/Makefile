@@ -6,7 +6,10 @@ main: main.cpp
 	g++ $(CFLAGS) main.cpp -o main -lm
 
 clean:
-	rm -f *.o main
+	rm -f *.o main test output.txt
 
 run: main
 	./main
+
+test: main ../tests/run_tests.cpp
+	g++ $(CFLAGS) ../tests/run_tests.cpp -o test -lm

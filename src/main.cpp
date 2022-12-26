@@ -1,3 +1,11 @@
+/*
+ *      File: main.cpp
+ *      Author: Gonçalo Sampaio Bárias (ist1103124)
+ *      Group: al013
+ *      Description: Kruskal algorithm in c++ to get the maximum trades in an
+ *                   imaginary city.
+ */
+
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -63,7 +71,7 @@ struct Edge {
 ll kruskalMaximumWeight(const ll numV, std::vector<Edge> *edges) {
     DisjointedSet *disjointedSet = new DisjointedSet(numV);
 
-    // Sorting the edges by their weight in decreasing order
+    // Sorts the edges by their weight in decreasing order
     std::sort(edges->begin(), edges->end());
 
     ll maximumTrades = 0;
@@ -85,8 +93,9 @@ int main() {
 
     std::cin >> numV >> numE;
 
-    // When we have 0 or less vertices/edges the maximum trade is always 0
-    if (numV <= 0 || numE <= 0) {
+    // When we have 1 vertice, or 0 edges, or invalid input the maximum trade
+    // value is always 0
+    if (numV <= 1 || numE <= 0) {
         std::cout << 0 << "\n";
         return 0;
     }
@@ -95,6 +104,10 @@ int main() {
     ll v, u, w;
     for (ll i = 0; i < numE; i++) {
         std::cin >> v >> u >> w;
+        if (v <= 0 || v > numV || u <= 0 || u > numV) {
+            std::cout << "Error: vertice identifier is incorrect\n";
+            return 1;
+        }
         Edge edge = {.vertice1 = v - 1, .vertice2 = u - 1, .weight = w};
         edges.push_back(edge);
     }
