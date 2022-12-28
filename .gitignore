@@ -53,6 +53,7 @@ dkms.conf
 
 # Output
 src/main
+src/test
 
 # LaTeX
 report/__latexindent_temp.tex

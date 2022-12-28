@@ -41,6 +41,19 @@
 
   \section{Avaliação Experimental dos Resultados}
 
+  Foram gerados vários grafos com um número de arestas entre 10 e 10 000 000, todos diferentes entre si. Para cada ordem de grandeza de arestas foram gerados pelo menos 100 grafos, tendo um total de 541 grafos.
+  O programa foi executado, pelo menos 100 vezes para cada grafo, recorrendo ao programa de \textit{benchmarking} \href{https://github.com/sharkdp/hyperfine}{\textit{hyperfine}}.
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=4in]{report.png}
+    \caption{Complexidade temporal do problema proposto}
+    \label{fig:graphic}
+  \end{figure}
+
+  O gráfico apresentado tem o número de arestas no eixo dos $xx$ com uma escala $E \log E$ e o tempo em segundos no eixo dos $yy$.
+  Os dados revelam uma tendência linear, comprovando que a complexidade temporal do problema é, num caso geral, $O(E\log E)$, tal como concluído na análise teórica.
+
   \printbibliography[title={Referência}]
 
 \end{document}

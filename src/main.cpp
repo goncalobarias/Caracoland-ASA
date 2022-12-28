@@ -105,7 +105,7 @@ int main() {
     for (ll i = 0; i < numE; i++) {
         std::cin >> v >> u >> w;
         if (v <= 0 || v > numV || u <= 0 || u > numV) {
-            std::cout << "Error: vertice identifier is incorrect\n";
+            std::cout << "ERROR: vertice identifier is incorrect\n";
             return 1;
         }
         Edge edge = {.vertice1 = v - 1, .vertice2 = u - 1, .weight = w};
