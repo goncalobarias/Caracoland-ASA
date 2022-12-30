@@ -3,7 +3,7 @@
  *      Author: Gonçalo Sampaio Bárias (ist1103124)
  *      Group: al013
  *      Description: Kruskal algorithm in c++ to get the maximum trades in an
- *                   imaginary city.
+ *                   imaginary country.
  */
 
 #include <algorithm>
@@ -11,17 +11,17 @@
 #include <vector>
 
 /**
- * Disjointed set data structure used by the modified Kruskal algorithm to
- * identify if adding an edge will cause any cycles in the tree.
+ * Disjointed sets are the data structures used by the modified Kruskal
+ * algorithm to identify if adding an edge will cause any cycles in the tree.
  */
-class DisjointedSet {
+class DisjointedSets {
   private:
     std::vector<int> _parents, _ranks;
 
   public:
-    DisjointedSet(const int numV) { makeSet(numV); }
+    DisjointedSets(const int numV) { makeSets(numV); }
 
-    void makeSet(const int numV) {
+    void makeSets(const int numV) {
         for (int i = 0; i < numV; i++) {
             _parents.push_back(i);
             _ranks.push_back(0);
@@ -63,21 +63,21 @@ struct Edge {
  * of the minimum.
  */
 int kruskalMaximumWeight(const int numV, std::vector<Edge> &edges) {
-    DisjointedSet *disjointedSet = new DisjointedSet(numV);
+    DisjointedSets *disjointedSets = new DisjointedSets(numV);
 
     // Sorts the edges by their weight in decreasing order
     std::sort(edges.begin(), edges.end());
 
     int maxTrades = 0;
     for (Edge edge : edges) {
-        if (disjointedSet->findSet(edge.source) !=
-            disjointedSet->findSet(edge.dest)) {
-            disjointedSet->merge(edge.source, edge.dest);
+        if (disjointedSets->findSet(edge.source) !=
+            disjointedSets->findSet(edge.dest)) {
+            disjointedSets->merge(edge.source, edge.dest);
             maxTrades += edge.weight;
         }
     }
 
-    delete disjointedSet;
+    delete disjointedSets;
     return maxTrades;
 }
 
