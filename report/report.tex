@@ -64,11 +64,11 @@
     \item São realizadas $O(E)$ operações de \texttt{findSet} e \texttt{merge}.
     \item Através do uso de conjuntos disjuntos, com as heurísticas de união por categoria e compressão de caminhos, podemos concluir que a complexidade do \textit{for loop} é $O(E a(V))$.
     \item A função $a(V)$ corresponde à inversa da função de Ackermann\cite{enwiki:1123526697}, sendo sub-logarítmica e, portanto, de crescimento prolongado.
-    \item Em qualquer aplicação concebível de um conjunto disjunto, $a(V) <= 4$. Assim, podemos tomar a complexidade do \textit{for loop} como linear em E. Estritamente falando, porém, na realidade é pior que linear.
+    \item Em qualquer aplicação concebível de um conjunto disjunto, $a(V) <= 4$\cite{enwiki:1123526697}. Assim, podemos tomar a complexidade do \textit{for loop} como linear em E. Estritamente falando, porém, na realidade é pior que linear.
     \item A apresentação do resultado é feita em tempo constante. Logo, $\Theta(1)$.
   \end{itemize}
 
-  Assim, no pior caso tem-se uma complexidade temporal $O(E\log E)$, pois é o termo dominante de todas as complexidades analisadas.
+  Assim, no pior caso tem-se uma complexidade temporal $O(V + E\log E)$, pois são os termos dominantes de todas as complexidades analisadas, já que o grafo não é necessariamente ligado.
 
   A solução tem complexidade espacial $\Theta(E + V)$, visto que se utilizou um vetor, de tamanho $E$, para todas as arestas do grafo e para os conjuntos disjuntos foram necessários mais dois vetores de tamanho $V$, um para os vértices representantes de cada vértice e outro para as categorias de cada vértice representante.
 
@@ -83,8 +83,8 @@
     \caption{Complexidade temporal do problema proposto}
   \end{figure}
 
-  O gráfico apresentado tem o número de arestas no eixo dos $xx$ com uma escala $E \log E$ e o tempo em segundos no eixo dos $yy$.
-  Os dados revelam uma tendência linear, comprovando que a complexidade temporal do problema é, num caso geral, $O(E\log E)$, tal como concluído na análise teórica.
+  O gráfico apresentado tem o número de arestas no eixo dos $xx$ com uma escala $V + E \log E$ e o tempo em segundos no eixo dos $yy$.
+  Os dados revelam uma tendência linear, comprovando que a complexidade temporal do problema é, num caso geral, $O(V + E\log E)$, tal como concluído na análise teórica.
 
   \printbibliography[title={Referência}]
 
